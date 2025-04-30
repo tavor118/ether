@@ -1,7 +1,30 @@
 # ut
-Python utilities for better development.
+
+[![PyPI - Version](https://img.shields.io/pypi/v/ut.svg)](https://pypi.org/project/ut)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ut.svg)](https://pypi.org/project/ut)
+
+-----
+
+# Table of Contents
+
+- [Installation](#installation)
+- [License](#license)
+- [Development](#development)
 
 ## Installation
+
+```console
+pip install ut
+```
+
+## License
+
+`ut` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
+
+
+## Development
+
+- Installation
 
 ```bash
 # Clone the repository
@@ -16,10 +39,7 @@ source .venv/bin/activate
 pip install -e .
 ```
 
-
-## Development
-
-Useful commands
+- Useful commands
 ```bash
 # run ruff
 uv run ruff check .
