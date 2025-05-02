@@ -3,11 +3,14 @@
 [![PyPI - Version](https://img.shields.io/pypi/v/ut.svg)](https://pypi.org/project/ut)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ut.svg)](https://pypi.org/project/ut)
 
+Helpful Python Utilities for Improved Development.
+
 -----
 
 # Table of Contents
 
 - [Installation](#installation)
+- [Usage](#usage)
 - [License](#license)
 - [Development](#development)
 
@@ -16,6 +19,46 @@
 ```console
 pip install ut
 ```
+
+## Usage
+
+This package offers a range of utilities across multiple categories, including data manipulation, services, and datetime.
+
+### Services
+
+
+### Data manipulation
+
+> **nget** - nested get
+
+Retrieves a nested item from a dictionary, safely handling exceptions
+and returning `None` if any step fails.
+Useful for accessing data from a JSON.
+
+Args:
+
+- obj: The dictionary to traverse.
+- items: A sequence of keys or indices to follow in the dictionary.
+- default: The default value to return if any key/index is not found.
+
+Returns: The value found at the end of the item chain, or None/default
+    if any key/index is not found.
+
+```python
+>>> data = {'result': {'users': [{'address': {'street': 'Main St'}}]}}
+>>> nget(data, 'result', 'users', 0, 'address', 'street')
+'Main St'
+>>> nget(data, 'result.users.0.address.street')
+'Main St'
+>>> nget(data, 'result', 'users', 0, 'address', 'zipcode')
+None
+>>> nget(data, 'result', 'users', 0, 'address', 'zipcode', default='NY')
+'NY'
+```
+
+
+### Datetime
+
 
 ## License
 
@@ -39,7 +82,14 @@ source .venv/bin/activate
 pip install -e .
 ```
 
-- Useful commands
+- Run tests
+
+```bash
+pytest tests
+```
+
+- Linting / formatting
+
 ```bash
 # run ruff
 uv run ruff check .

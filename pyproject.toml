@@ -88,7 +88,7 @@ exclude_lines = [
 required-version = ">=0.11.5"
 
 # Same as Black
-line-length = 88
+line-length = 90
 indent-width = 4
 
 # Assume Python 3.13
@@ -176,12 +176,15 @@ select = [
     "TRY", # tryceratops (TRY)
 ]
 ignore = [
-    "S101", # S101	Use of assert detected
+    "COM812", # missing-trailing-comma (COM812)
     "RUF001", # ambiguous-unicode-character-string (RUF001)
     "RUF002", # ambiguous-unicode-character-docstring (RUF002)
     "RUF003", # ambiguous-unicode-character-comment (RUF003)
+    "S101", # S101	Use of assert detected
     "TC006", # runtime-cast-value (TC006)
-    "COM812", # missing-trailing-comma (COM812)
+    "UP006", # non-pep585-annotation (UP006) (to be compatible with py3.7)
+    "UP007", # non-pep604-annotation-union (UP007) (to be compatible with py3.7)
+    "UP035", # deprecated-import (UP035) (to be compatible with py3.7)
 ]
 
 # Allow fix for all enabled rules (when `--fix`) is provided
@@ -201,7 +204,7 @@ unfixable = []
 ### ------------- ###
 
 [tool.black]
-line-length = 88
+line-length = 90
 include = '\.pyi?$'
 exclude = '''
 /(
