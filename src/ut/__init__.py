@@ -2,6 +2,10 @@
 #
 # SPDX-License-Identifier: MIT
 
-from .data import nget
+from .destruct import destruct
+from .nget import nget
 
-__all__ = ["nget"]
+__all__ = [
+    "destruct",
+    "nget",
+]

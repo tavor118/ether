@@ -1,5 +1,3 @@
-"""Helpers to manipulate data."""
-
 from collections.abc import Mapping, Sequence
 from typing import Any, TypeVar, Union, overload
 
@@ -9,21 +7,22 @@ NestedDict = Union[Mapping[Any, Any], Sequence[Any]]
 
 
 @overload
-def nget(obj: NestedDict, *items: KeyType, default: T) -> T: ...
+def nget(dct: NestedDict, *items: KeyType, default: T) -> T: ...
 
 
 @overload
-def nget(obj: NestedDict, *items: KeyType) -> object: ...
+def nget(dct: NestedDict, *items: KeyType) -> object: ...
 
 
-def nget(obj: NestedDict, *items: KeyType, default: T = None) -> T | None:
-    """Nested get.
+def nget(dct: NestedDict, *items: KeyType, default: T = None) -> T | None:
+    """
+    Nested get.
     Retrieves a nested item from a dictionary, safely handling exceptions
     and returning None if any step fails.
     Useful for accessing data from a JSON.
 
     Args:
-        obj: The dictionary to traverse.
+        dct: The dictionary to traverse.
         items: A sequence of keys or indices to follow in the dictionary.
         default: The default value to return if any key/index is not found.
 
@@ -58,8 +57,8 @@ def nget(obj: NestedDict, *items: KeyType, default: T = None) -> T | None:
 
     for key in keys:
         try:
-            obj = obj[key]
+            dct = dct[key]
         except (KeyError, IndexError, TypeError):
             return default
 
-    return obj
+    return dct

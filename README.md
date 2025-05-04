@@ -20,16 +20,20 @@ Helpful Python Utilities for Improved Development.
 pip install ut
 ```
 
+
 ## Usage
 
 This package offers a range of utilities across multiple categories, including data manipulation, services, and datetime.
 
-### Services
+- `service` decorator
+- `nget` function - nested get
+- `destruct` function - to extract values from a dictionary, matching variable names from the caller's scope or from provided list
+- `utc_now` function
+
+### `@service`
 
 
-### Data manipulation
-
-> **nget** - nested get
+### `nget()`
 
 Retrieves a nested item from a dictionary, safely handling exceptions
 and returning `None` if any step fails.
@@ -37,12 +41,15 @@ Useful for accessing data from a JSON.
 
 Args:
 
-- obj: The dictionary to traverse.
-- items: A sequence of keys or indices to follow in the dictionary.
-- default: The default value to return if any key/index is not found.
+    dct: The dictionary to traverse.
+    items: A sequence of keys or indices to follow in the dictionary.
+    default: The default value to return if any key/index is not found.
 
-Returns: The value found at the end of the item chain, or None/default
-    if any key/index is not found.
+Returns:
+
+    The value found at the end of the item chain, or None/default if any key/index is not found.
+
+Example:
 
 ```python
 >>> data = {'result': {'users': [{'address': {'street': 'Main St'}}]}}
@@ -57,7 +64,56 @@ None
 ```
 
 
-### Datetime
+### `destruct()`
+
+Mimics JavaScript's object destructuring.
+Extract values from a dictionary, matching variable names from the caller's scope.
+
+This function inspects the calling frame and tries to match variable names
+that exist in the caller's code context with keys in the provided dictionary.
+It then returns a tuple of values from the dictionary based on those variable names.
+
+Args:
+
+    dct: The dictionary to extract values from.
+    keys: Optional sequence of keys to extract. If None, keys are inferred from the assignment statement.
+    default: Default value to use when a key is not found in the dictionary. If not provided, KeyError will be raised for missing keys.
+
+Returns:
+
+    Single value or a tuple of values from the dictionary corresponding
+    to the caller's variable names.
+
+Raises:
+
+    KeyError: If any variable name from the caller is not found in the dictionary
+        and default value is provided.
+    DestructError: If the function cannot complete successfully.
+
+WARNING:
+
+    `destruct` relies on inspecting the caller's frame, which may not work properly
+    in interactive environments like the Python shell or Jupyter notebooks.
+    Use `keys` argument if you need to work in the shell.
+
+Example:
+
+```python
+person_dict = {"name": "John", "age": 30, "city": "New York"}
+
+# Basic usage
+name, age, city = destruct(person_dict)
+
+# With default value for missing keys
+name, age, country = destruct(person_dict, default="N/A")
+
+# With explicit keys and default
+name, country = destruct(person_dict, keys=["name", "country"], default="N/A")
+```
+
+
+### `utc_now()`
+
 
 
 ## License
