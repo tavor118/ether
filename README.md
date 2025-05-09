@@ -28,7 +28,7 @@ This package offers a range of utilities across multiple categories, including d
 - `service` decorator
 - `nget` function - nested get
 - `destruct` function - to extract values from a dictionary, matching variable names from the caller's scope or from provided list
-- `utc_now` function
+- `utc_now` function - returns the current UTC time as a timezone-aware datetime object.
 
 ### `@service`
 
@@ -114,6 +114,42 @@ name, country = destruct(person_dict, keys=["name", "country"], default="N/A")
 
 ### `utc_now()`
 
+Returns the current UTC time as a timezone-aware `datetime` object.
+
+IMPLEMENTATION NOTE:
+
+    This function is defined separately to allow easy mocking in tests.
+    It delegates the call to `DateTimeProvider.utc_now()` but can be overridden
+    using fixtures to control datetime values in unit tests.
+
+Example:
+
+```python
+>>> utc_now()
+datetime.datetime(2025, 5, 9, 17, 45, 40, 566021, tzinfo=datetime.timezone.utc)
+```
+
+Additionally, `ut` provides a pytest fixture, `mocked_now`, which offers an in-memory implementation of `utc_now()`, enhancing test performance by eliminating unnecessary system clock access.
+
+Example:
+
+```python
+from datetime import UTC, datetime
+from unittest.mock import Mock
+from ut import utc_now
+
+class TestMockedNow:
+    def test_mocked_now(self, mocked_now: Mock):
+        returned_dt = mocked_now()
+
+        assert utc_now() == returned_dt
+
+    def test_with_provided_datetime(self, mocked_now: Mock):
+        fixed_dt = datetime(2025, 1, 1, 12, 0, 0, tzinfo=UTC)
+        mocked_now.return_value = fixed_dt
+
+        assert utc_now() == fixed_dt
+```
 
 
 ## License

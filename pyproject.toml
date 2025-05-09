@@ -21,6 +21,7 @@ classifiers = [
   "Topic :: Software Development :: Libraries",
   "Topic :: Software Development :: Libraries :: Python Modules",
   "Topic :: Utilities",
+  "Framework :: Pytest"
 ]
 
 
@@ -40,10 +41,15 @@ dev = [
     "ruff>=0.11.7",
 ]
 
+
 [project.urls]
 Documentation = "https://github.com/tavor118/ut#readme"
 Issues = "https://github.com/tavor118/ut/issues"
 Source = "https://github.com/tavor118/ut"
+
+
+[project.entry-points.pytest11]
+ut = "ut.fixtures"
 
 
 ### ------------- ###
