@@ -32,6 +32,164 @@ This package offers a range of utilities across multiple categories, including d
 
 ### `@service`
 
+`service` provides several instruments to write better services - `@service` decorator, `Break` exception and `@catch_break` decorator.
+
+- @service
+
+A class decorator that behaves like `@dataclass` but also logs init arguments.
+
+This is useful for debugging or tracing how services are constructed.
+
+Args:
+
+    cls: The class to be decorated
+
+Returns:
+
+    The decorated class with dataclass features and logging
+
+Example:
+
+```python
+@service
+class UserService:
+    user_id: str
+    update_cache: bool = True
+
+    def run(self):
+        # Service implementation
+        pass
+```
+
+- @catch_break
+
+Decorator that gracefully handles `Break` exceptions in service operations.
+
+Catches any `Break` exceptions raised during the execution of the decorated function,
+logs the provided reason (or a default message if none is provided), and returns
+`None` to indicate the operation was terminated early.
+
+Args:
+
+    func: The function to be decorated
+
+Returns:
+
+    The decorated function that handles Break exceptions
+
+Example:
+
+```python
+@service
+class DataProcessor:
+    @capture_break
+    def process(self, data):
+        if not data:
+            raise Break("Empty data provided")
+        # Continue processing...
+```
+
+JUSTIFICATION OF NEED:
+
+    There was a time when Django developers wrote business logic in views or even in templates.
+    This was a poor practice, so the community found a better place for it — the model.
+    This approach was called **"thin views, fat models."**
+    While it works for small projects, even in medium-sized projects,
+    models quickly become **God objects**, making maintenance difficult.
+
+    To address this, developers adopted a better approach:
+    moving business logic into services, which can be either functions or classes.
+    This method enables the creation of reliable scenarios for use cases,
+    allowing them to be used in views, Celery tasks, or even in the shell.
+
+    Several packages provide syntactic sugar for services,
+    but sometimes we need something really simple.
+    That's where `ut.services` comes in.
+    Let's consider the following example and refactor it using `ut`.
+
+Before:
+
+```python
+DB = {}
+class ServiceError(Exception):
+    ...
+
+@dataclass
+class UserDTO:
+    name: str
+    age: int
+    email: str
+
+class UpdateUserService:
+    user_dto: UserDTO
+
+    def __init__(self, usr_dto: UserDTO):
+        self.user_dto = usr_dto
+
+    def run(self):
+        log.info("Start creating user service")
+        log.info("User DTO: %s", self.user_dto)
+
+        if self.user_dto.email not in DB:
+            log.info("User doesn't exists")
+            raise ServiceError("User doesn't exists")
+
+        user = DB[self.user_dto.email]
+
+        if self.user_dto.name == user.name:
+            log.info("User name is the same")
+            return
+
+        # update user logic
+```
+
+After:
+
+```python
+DB = {}
+class ServiceError(Exception):
+    ...
+
+@dataclass
+class UserDTO:
+    name: str
+    age: int
+    email: str
+
+@service
+class UpdateUserSvc:
+    user_dto: UserDTO
+
+    @catch_break
+    def run(self):
+        user = self.get_user()
+        self.check_name(user)
+        self.update_user(user)
+
+    def get_user(self) -> UserDTO:
+        if self.user_dto.email not in DB:
+            log.info("User doesn't exists")
+            raise ServiceError("User doesn't exists")
+
+        return DB[self.user_dto.email]
+
+    def check_name(self, user: UserDTO) -> None:
+        if self.user_dto.name == user.name:
+            # log.info("User name is the same") <- no need - `@catch_break` will log
+            raise Break("User name has the same")
+
+    def update_user(self, user: UserDTO) -> UserDTO:
+        ...
+```
+
+**Advantages of this approach:**
+
+- **No `__init__` method** – while simple in this case, some scenarios involve processing many arguments, making this approach more flexible.
+- **Clear semantics with the `@service` decorator** – it explicitly marks the class as a service, preventing confusion with `@dataclass`, which should be used for DTOs.
+- **Automatic logging** – service initialization logs arguments (`args` and `kwargs`) automatically.
+- **Cleaner code structure** – the `run` method contains only instructions, while business logic is encapsulated within separate methods.
+- **Graceful error handling with structured logs** – operations can be interrupted cleanly with meaningful log messages.
+
 
 ### `nget()`
 
@@ -150,6 +308,19 @@ class TestMockedNow:
 
         assert utc_now() == fixed_dt
 ```
+
+JUSTIFICATION OF NEED:
+
+    There are two advantages for using `utc_now()`.
+    First, it provides a convenient shortcut for retrieving the current datetime
+    in the UTC timezone.
+    Additionally, it can be easily replaced throughout the project if needed.
+
+    Second, it allows us to efficiently mock the current time for testing purposes.
+    Several packages provide functionality for this, including `freezegun`
+    and `time-machine`.
+    While `time-machine` is faster than `freezegun`, the `mocked_now` pytest fixture
+    offers even better performance in tests.
 
 
 ## License
