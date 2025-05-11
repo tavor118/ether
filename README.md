@@ -1,5 +1,8 @@
 # ut
 
+
+
+
 [![PyPI - Version](https://img.shields.io/pypi/v/ut.svg)](https://pypi.org/project/ut)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ut.svg)](https://pypi.org/project/ut)
 
@@ -8,11 +11,14 @@ Helpful Python Utilities for Improved Development.
 -----
 
 # Table of Contents
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [License](#license)
-- [Development](#development)
+* [Installation](#Installation)
+* [Usage](#Usage)
+	* [@service](#service)
+	* [nget()](#nget)
+	* [destruct()](#destruct)
+	* [utc_now()](#utc_now)
+* [License](#License)
+* [Development](#Development)
 
 ## Installation
 
