@@ -5,8 +5,8 @@ from unittest.mock import Mock
 
 from pytest import fixture, mark, raises
 
-from ut import destruct
-from ut.destruct import DestructError
+from et import destruct
+from et import DestructError
 
 
 class TestDestruct:

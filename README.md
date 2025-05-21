@@ -1,12 +1,10 @@
-# ut
+# ether
 
+[![GitHub Repo stars](https://img.shields.io/github/stars/tavor118/ether)](https://github.com/tavor118/ether)
+[![PyPI - Version](https://img.shields.io/pypi/v/ether-utils.svg)](https://pypi.org/project/ether-utils)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ether-utils.svg)](https://pypi.org/project/ether-utils)
 
-
-
-[![PyPI - Version](https://img.shields.io/pypi/v/ut.svg)](https://pypi.org/project/ut)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ut.svg)](https://pypi.org/project/ut)
-
-Helpful Python Utilities for Improved Development.
+`ether` - External Python Utilities for Improved Development.
 
 -----
 
@@ -23,7 +21,7 @@ Helpful Python Utilities for Improved Development.
 ## Installation
 
 ```console
-pip install ut
+pip install ether-utils
 ```
 
 
@@ -38,7 +36,7 @@ This package offers a range of utilities across multiple categories, including d
 
 ### `@service`
 
-`service` provides several instruments to write better services - `@service` decorator, `Break` exception and `@catch_break` decorator.
+`service` provides several instruments to write better services - `@service` decorator, `Break` exception and `@catch_a_break` decorator.
 
 - @service
 
@@ -67,7 +65,7 @@ class UserService:
         pass
 ```
 
-- @catch_break
+- @catch_a_break
 
 Decorator that gracefully handles `Break` exceptions in service operations.
 
@@ -110,8 +108,8 @@ JUSTIFICATION OF NEED:
 
     Several packages provide syntactic sugar for services,
     but sometimes we need something really simple.
-    That's where `ut.services` comes in.
-    Let's consider the following example and refactor it using `ut`.
+    That's where `et.services` comes in.
+    Let's consider the following example and refactor it using `et`.
 
 Before:
 
@@ -166,7 +164,7 @@ class UserDTO:
 class UpdateUserSvc:
     user_dto: UserDTO
 
-    @catch_break
+    @catch_a_break
     def run(self):
         user = self.get_user()
         self.check_name(user)
@@ -181,7 +179,7 @@ class UpdateUserSvc:
 
     def check_name(self, user: UserDTO) -> None:
         if self.user_dto.name == user.name:
-            # log.info("User name is the same") <- no need - `@catch_break` will log
+            # log.info("User name is the same") <- no need - `@catch_a_break` will log
             raise Break("User name has the same")
 
     def update_user(self, user: UserDTO) -> UserDTO:
@@ -293,14 +291,14 @@ Example:
 datetime.datetime(2025, 5, 9, 17, 45, 40, 566021, tzinfo=datetime.timezone.utc)
 ```
 
-Additionally, `ut` provides a pytest fixture, `mocked_now`, which offers an in-memory implementation of `utc_now()`, enhancing test performance by eliminating unnecessary system clock access.
+Additionally, `et` provides a pytest fixture, `mocked_now`, which offers an in-memory implementation of `utc_now()`, enhancing test performance by eliminating unnecessary system clock access.
 
 Example:
 
 ```python
 from datetime import UTC, datetime
 from unittest.mock import Mock
-from ut import utc_now
+from et import utc_now
 
 class TestMockedNow:
     def test_mocked_now(self, mocked_now: Mock):
@@ -331,7 +329,7 @@ JUSTIFICATION OF NEED:
 
 ## License
 
-`ut` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
+`et` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
 
 
 ## Development
@@ -340,8 +338,8 @@ JUSTIFICATION OF NEED:
 
 ```bash
 # Clone the repository
-git clone https://github.com/tavor118/ut
-cd ut
+git clone https://github.com/tavor118/ether
+cd ether
 
 # Set up a virtual environment (optional but recommended)
 python -m venv .venv

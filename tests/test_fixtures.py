@@ -1,14 +1,14 @@
 """
-Example test file showing how to use `ut` fixtures.
+Example test file showing how to use `et` fixtures.
 
 Note: No imports of fixtures are needed - they are automatically
-discovered by pytest when the 'ut' package is installed.
+discovered by pytest when the 'et' package is installed.
 """
 
 from datetime import UTC, datetime
 from unittest.mock import Mock
 
-from ut import utc_now
+from et import utc_now
 
 
 class TestMockedNow:

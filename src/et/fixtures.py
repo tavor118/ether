@@ -3,7 +3,7 @@ from unittest.mock import Mock
 
 from pytest import MonkeyPatch, fixture
 
-from ut.utc_now import DateTimeProvider
+from et.utc_now import DateTimeProvider
 
 DEFAULT_NOW = datetime(2025, 6, 6, 12, 0, 0, tzinfo=UTC)
 

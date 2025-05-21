@@ -1,6 +1,6 @@
 from datetime import UTC, datetime
 
-from ut import utc_now
+from et import utc_now
 
 
 class TestUTCNow:

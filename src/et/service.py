@@ -55,7 +55,7 @@ def service(cls: Type[T]) -> Type[T]:
     return cls
 
 
-def catch_break(func: F) -> F:
+def catch_a_break(func: F) -> F:
     """
     Decorator that gracefully handles `Break` exceptions in service operations.
 

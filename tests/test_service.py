@@ -2,7 +2,7 @@ import logging
 
 from pytest import LogCaptureFixture, fixture
 
-from src.ut import Break, catch_break, service
+from et import Break, catch_a_break, service
 
 
 @service
@@ -12,15 +12,15 @@ class UpdatePlanSvc:
     def run(self):
         return self.plan_id
 
-    @catch_break
+    @catch_a_break
     def run_with_capture(self):
         return self.plan_id
 
-    @catch_break
+    @catch_a_break
     def run_with_break(self):
         raise Break
 
-    @catch_break
+    @catch_a_break
     def run_with_break_reason(self):
         err_msg = "Manual stop."
         raise Break(err_msg)

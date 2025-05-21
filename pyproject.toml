@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 
 [project]
-name = "ut"
+name = "ether-utils"
 dynamic = ["version"]
 description = "Python utilities for better development."
 readme = "README.md"
@@ -25,9 +25,9 @@ classifiers = [
 ]
 
 
-### -------------------- ###
+### ==================== ###
 ### *** DEPENDENCIES *** ###
-### -------------------- ###
+### ==================== ###
 
 dependencies = []
 
@@ -43,40 +43,43 @@ dev = [
 
 
 [project.urls]
-Documentation = "https://github.com/tavor118/ut#readme"
-Issues = "https://github.com/tavor118/ut/issues"
-Source = "https://github.com/tavor118/ut"
+Documentation = "https://github.com/tavor118/ether#readme"
+Issues = "https://github.com/tavor118/ether/issues"
+Source = "https://github.com/tavor118/ether"
 
 
 [project.entry-points.pytest11]
-ut = "ut.fixtures"
+et = "et.fixtures"
 
 
-### ------------- ###
+### ============= ###
 ### *** HATCH *** ###
-### ------------- ###
+### ============= ###
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/et"]
 
 [tool.hatch.version]
-path = "src/ut/__about__.py"
+path = "src/et/__about__.py"
 
 [tool.hatch.envs.types]
 extra-dependencies = [
   "mypy>=1.0.0",
 ]
 [tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:src/ut tests}"
+check = "mypy --install-types --non-interactive {args:src/et tests}"
 
 [tool.coverage.run]
-source_pkgs = ["ut", "tests"]
+source_pkgs = ["et", "tests"]
 branch = true
 parallel = true
 omit = [
-  "src/ut/__about__.py",
+  "src/et/__about__.py",
 ]
 
 [tool.coverage.paths]
-ut = ["src/ut", "*/ut/src/ut"]
-tests = ["tests", "*/ut/tests"]
+et = ["src/et", "*/ether/src/et"]
+tests = ["tests", "*/ether/tests"]
 
 [tool.coverage.report]
 exclude_lines = [
@@ -86,9 +89,9 @@ exclude_lines = [
 ]
 
 
-### ------------- ###
+### ============= ###
 ### *** BLACK *** ###
-### ------------- ###
+### ============= ###
 
 [tool.black]
 line-length = 90

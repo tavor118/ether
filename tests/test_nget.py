@@ -2,7 +2,7 @@ from typing import Any, Dict
 
 from pytest import fixture, mark
 
-from ut import nget
+from et import nget
 
 
 class TestNget:
