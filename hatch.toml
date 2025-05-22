@@ -1,0 +1,15 @@
+[build.targets.wheel]
+packages = ["src/et"]
+
+[version]
+path = "src/et/__about__.py"
+
+[envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+[envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/et tests}"
+
+[[envs.hatch-test.matrix]]
+python = ["3.9", "3.10", "3.11", "3.12"]

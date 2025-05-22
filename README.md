@@ -352,7 +352,7 @@ pip install -e .
 - Run tests
 
 ```bash
-pytest tests
+hatch test --cover
 ```
 
 - Linting / formatting

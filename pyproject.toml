@@ -52,22 +52,9 @@ Source = "https://github.com/tavor118/ether"
 et = "et.fixtures"
 
 
-### ============= ###
-### *** HATCH *** ###
-### ============= ###
-
-[tool.hatch.build.targets.wheel]
-packages = ["src/et"]
-
-[tool.hatch.version]
-path = "src/et/__about__.py"
-
-[tool.hatch.envs.types]
-extra-dependencies = [
-  "mypy>=1.0.0",
-]
-[tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:src/et tests}"
+### ================ ###
+### *** COBERAGE *** ###
+### ================ ###
 
 [tool.coverage.run]
 source_pkgs = ["et", "tests"]
