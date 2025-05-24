@@ -1,7 +1,7 @@
 import logging
 from dataclasses import dataclass
 from functools import wraps
-from typing import Any, Callable, Self, Type, TypeVar
+from typing import Any, Callable, Type, TypeVar
 
 log = logging.getLogger(__name__)
 
@@ -47,7 +47,7 @@ def service(cls: Type[T]) -> Type[T]:
     original_init = cls.__init__  # save original __init__ to wrap it
 
     @wraps(original_init)
-    def init(self: Self, *args: Any, **kwargs: Any) -> None:
+    def init(self: Any, *args: Any, **kwargs: Any) -> None:
         log.debug("Initializing '%s' with args=%s, kwargs=%s", cls.__name__, args, kwargs)
         original_init(self, *args, **kwargs)
 

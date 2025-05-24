@@ -1,11 +1,11 @@
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 
 
 class DateTimeProvider:
     @classmethod
     def utc_now(cls) -> datetime:
         """Get the current UTC time."""
-        return datetime.now(UTC)
+        return datetime.now(timezone.utc)
 
 
 def utc_now() -> datetime:

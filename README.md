@@ -346,14 +346,21 @@ python -m venv .venv
 source .venv/bin/activate
 
 # Install the package
-pip install -e .
+pip install hatch
+pip install -e .[dev]
 ```
 
 - Run tests
 
 ```bash
-hatch test --cover
+hatch test
+hatch test --cover  # with coverage check
+hatch test --cover --all  # all python versions
 ```
+
+For more information, check hatch documentation:
+https://hatch.pypa.io/latest/tutorials/testing/overview/
+
 
 - Linting / formatting
 

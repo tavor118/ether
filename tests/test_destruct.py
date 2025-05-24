@@ -27,9 +27,21 @@ class TestDestruct:
 
     @mark.parametrize("use_keys", [True, False])
     def test_success_one_key(self, test_data: Dict[str, Any], use_keys: bool):
-        city = destruct(test_data, keys=["city"]) if use_keys else destruct(test_data)
+        if use_keys:
+            city = destruct(test_data, keys=["city"])
+        else:
+            city = destruct(test_data)
 
         assert city == "New York"
+
+    @mark.parametrize("use_keys", [True, False])
+    def test_success_one_key_with_default(self, test_data: Dict[str, Any], use_keys: bool):
+        if use_keys:
+            zip = destruct(test_data, keys=["zip"], default="N/A")
+        else:
+            zip = destruct(test_data, default="N/A")
+
+        assert zip == "N/A"
 
     @mark.parametrize("use_keys", [True, False])
     def test_missing_key(self, test_data: Dict[str, Any], use_keys: bool):
@@ -47,11 +59,10 @@ class TestDestruct:
         data = {}
         err_msg = re.escape("Key(s) ['name'] not found in dictionary.")
         with raises(KeyError, match=err_msg):
-            name = destruct(data, keys=["name"]) if use_keys else destruct(data)
-            # if use_keys:
-            #     name = destruct(data, keys=["name"])
-            # else:
-            #     name = destruct(data)
+            if use_keys:
+                name = destruct(data, keys=["name"])
+            else:
+                name = destruct(data)
 
     @mark.parametrize("use_keys", [True, False])
     def test_with_defaults(self, test_data: Dict[str, Any], use_keys: bool):

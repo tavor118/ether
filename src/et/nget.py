@@ -7,14 +7,14 @@ NestedDict = Union[Mapping[Any, Any], Sequence[Any]]
 
 
 @overload
-def nget(dct: NestedDict, *items: KeyType, default: T) -> T: ...
+def nget(dct: NestedDict, *items: KeyType, default: T) -> T: ...  # pragma: no cover
 
 
 @overload
-def nget(dct: NestedDict, *items: KeyType) -> object: ...
+def nget(dct: NestedDict, *items: KeyType) -> object: ...  # pragma: no cover
 
 
-def nget(dct: NestedDict, *items: KeyType, default: T = None) -> T | None:
+def nget(dct: NestedDict, *items: KeyType, default: T = None) -> Union[T, None]:
     """
     Nested get.
     Retrieves a nested item from a dictionary, safely handling exceptions

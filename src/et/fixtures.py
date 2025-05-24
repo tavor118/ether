@@ -1,11 +1,11 @@
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from unittest.mock import Mock
 
 from pytest import MonkeyPatch, fixture
 
 from et.utc_now import DateTimeProvider
 
-DEFAULT_NOW = datetime(2025, 6, 6, 12, 0, 0, tzinfo=UTC)
+DEFAULT_NOW = datetime(2025, 6, 6, 12, 0, 0, tzinfo=timezone.utc)
 
 
 @fixture
@@ -18,7 +18,7 @@ def mocked_now(monkeypatch: MonkeyPatch) -> Mock:
 
     Usage:
     - To modify the returned datetime, update the `return_value` attribute of the mock.
-    >>> mocked_now.return_value = datetime(2025, 6, 6, 12, 0, 0, tzinfo=UTC)
+    >>> mocked_now.return_value = datetime(2025, 6, 6, 12, 0, 0, tzinfo=timezone.utc)
 
     Returns:
         Mock: A mock instance that simulates the `utc_now()` method.

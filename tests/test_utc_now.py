@@ -1,4 +1,4 @@
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 
 from et import utc_now
 
@@ -8,6 +8,6 @@ class TestUTCNow:
         now = utc_now()
 
         assert isinstance(now, datetime)
-        assert now.tzinfo == UTC
+        assert now.tzinfo == timezone.utc
 
-        assert now.date() == datetime.now(UTC).date()
+        assert now.date() == datetime.now(timezone.utc).date()
