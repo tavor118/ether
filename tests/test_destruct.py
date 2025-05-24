@@ -5,8 +5,7 @@ from unittest.mock import Mock
 
 from pytest import fixture, mark, raises
 
-from et import destruct
-from et import DestructError
+from et import DestructError, destruct
 
 
 class TestDestruct:
@@ -35,7 +34,9 @@ class TestDestruct:
         assert city == "New York"
 
     @mark.parametrize("use_keys", [True, False])
-    def test_success_one_key_with_default(self, test_data: Dict[str, Any], use_keys: bool):
+    def test_success_one_key_with_default(
+        self, test_data: Dict[str, Any], use_keys: bool
+    ):
         if use_keys:
             zip = destruct(test_data, keys=["zip"], default="N/A")
         else:

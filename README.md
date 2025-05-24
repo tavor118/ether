@@ -364,6 +364,16 @@ https://hatch.pypa.io/latest/tutorials/testing/overview/
 
 - Linting / formatting
 
+Using pre-commit
+
+```shell
+pre-commit install
+pre-commit run
+pre-commit run --all-files
+```
+
+Using ruff
+
 ```bash
 # run ruff
 uv run ruff check .
@@ -373,4 +383,14 @@ uv run ruff check --fix .
 
 # format code using ruff
 uv run ruff format .
+```
+
+- Update package version
+
+```shell
+
+hatch version  # check current version
+
+hatch version minor
+hatch version major
 ```

@@ -1,18 +1,4 @@
 repos:
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: 'bbc3dc1'
-    hooks:
-      - id: mypy
-        args:
-          - --check-untyped-defs
-          - --ignore-missing-imports
-          - --install-types
-          - --non-interactive
-          - --scripts-are-modules
-          - --warn-unused-ignores
-        stages:
-          - manual
-
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: "v4.1.0"
     hooks:
@@ -25,13 +11,22 @@ repos:
       - id: pretty-format-json
         exclude: "docs/"
 
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.7.8
+    hooks:
+      - id: uv-lock
+
   - repo: https://github.com/psf/black
     rev: "25.1.0"
     hooks:
       - id: black
 
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: "v0.11.7"
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.11.11
     hooks:
-      - id: ruff
-        args: [--fix, --exit-non-zero-on-fix]
+      # Run the linter.
+      - id: ruff-check
+        args: [ --fix ]
+      # Run the formatter.
+      - id: ruff-format

@@ -55,9 +55,9 @@ def nget(dct: NestedDict, *items: KeyType, default: T = None) -> Union[T, None]:
         else:
             keys.append(item)
 
-    for key in keys:
         try:
-            dct = dct[key]
+            for key in keys:
+                dct = dct[key]
         except (KeyError, IndexError, TypeError):
             return default
 

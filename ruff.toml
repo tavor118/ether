@@ -4,8 +4,8 @@ required-version = ">=0.11.5"
 line-length = 90
 indent-width = 4
 
-# Assume Python 3.13
-target-version = "py313"
+# Assume Python 3.9
+target-version = "py39"
 
 # Exclude a variety of commonly ignored directories
 exclude = [
@@ -113,4 +113,5 @@ unfixable = []
     "ANN", # Ignore missing type annotations in tests
     "F841", # Ignore assignment to unused variable
     "PLR2004",  # Ignore magic value used in comparison in tests
+    "SIM108",  # if-else-block-instead-of-if-exp (SIM108)
 ]

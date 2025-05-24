@@ -55,7 +55,6 @@ class TestService:
         assert result == plan_id
 
     def test_run_with_break(self, svc: UpdatePlanSvc, caplog: LogCaptureFixture):
-
         with caplog.at_level(logging.DEBUG):
             result = svc.run_with_break()
 
