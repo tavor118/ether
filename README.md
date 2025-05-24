@@ -3,6 +3,7 @@
 [![GitHub Repo stars](https://img.shields.io/github/stars/tavor118/ether)](https://github.com/tavor118/ether)
 [![PyPI - Version](https://img.shields.io/pypi/v/ether-utils.svg)](https://pypi.org/project/ether-utils)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ether-utils.svg)](https://pypi.org/project/ether-utils)
+[![Coverage](https://codecov.io/github/tavor118/ether/graph/badge.svg)](https://app.codecov.io/github/tavor118/ether)
 
 `ether` - External Python Utilities for Improved Development.
 
