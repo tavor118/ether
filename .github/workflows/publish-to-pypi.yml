@@ -1,0 +1,115 @@
+name: Publish Python 🐍 distribution 📦 to PyPI
+
+on:
+  pull_request:
+    branches:
+      - release
+    types:
+      - closed
+
+jobs:
+  add-version-tag:
+    if: github.event.pull_request.merged == true
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Hatch
+        run: pip install hatch
+
+      - name: Get version from Hatch
+        id: get_version
+        run: echo "VERSION=v$(hatch version)" >> "$GITHUB_ENV"
+
+      - name: Create and push tag
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git tag $VERSION
+          git push origin $VERSION
+
+  build:
+    name: Build distribution 📦
+    needs:
+      - add-version-tag
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+        fetch-depth: 0  # Full history for proper versioning
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+
+    - name: Install pypa/build
+      run: >-
+        python3 -m
+        pip install
+        build
+        --user
+
+    - name: Build a binary wheel and a source tarball
+      run: python3 -m build
+
+    - name: Store the distribution packages
+      uses: actions/upload-artifact@v4
+      with:
+        name: python-package-distributions
+        path: dist/
+
+  publish-to-pypi:
+    name: >-
+      Publish Python 🐍 distribution 📦 to PyPI
+    if: startsWith(github.ref, 'refs/tags/')  # only publish to PyPI on tag pushes
+    needs:
+    - build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/ether-utils
+    permissions:
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
+
+    steps:
+    - name: Download all the dists
+      uses: actions/download-artifact@v4
+      with:
+        name: python-package-distributions
+        path: dist/
+
+    - name: Publish distribution 📦 to PyPI
+      uses: pypa/gh-action-pypi-publish@v1.12.4
+      with:
+        skip-existing: true
+
+  # Create a GitHub release
+  release:
+    needs: [ build, publish-to-pypi ]
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
+          draft: false
