@@ -88,7 +88,6 @@ jobs:
   publish-to-pypi:
     name: >-
       Publish Python 🐍 distribution 📦 to PyPI
-    if: startsWith(github.ref, 'refs/tags/')  # only publish to PyPI on tag pushes
     needs:
     - build
     runs-on: ubuntu-latest
@@ -112,7 +111,7 @@ jobs:
 
   # Create a GitHub release
   release:
-    needs: [ build, publish-to-pypi ]
+    needs: [ publish-to-pypi ]
     runs-on: ubuntu-latest
 
     permissions:
