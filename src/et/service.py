@@ -3,6 +3,8 @@ from dataclasses import dataclass
 from functools import wraps
 from typing import Any, Callable, Type, TypeVar
 
+from et._compat import dataclass_transform
+
 log = logging.getLogger(__name__)
 
 T = TypeVar("T")
@@ -19,6 +21,7 @@ class Break(Exception):  # noqa: N818
     """
 
 
+@dataclass_transform()
 def service(cls: Type[T]) -> Type[T]:
     """
     A class decorator that behaves like `@dataclass` but also logs init arguments.
