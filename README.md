@@ -386,12 +386,46 @@ uv run ruff check --fix .
 uv run ruff format .
 ```
 
-- Update package version
+- Contribution flow
 
 ```shell
+# 1. Branch off main
+git checkout main && git pull
+git checkout -b fix/<short-name>
 
-hatch version  # check current version
+# 2. Make changes, then auto-fix and format
+uv run ruff check --fix .
+uv run ruff format .
 
-hatch version minor
-hatch version major
+# 3. If the change should be released, bump the version on the same branch
+hatch version            # check current version
+hatch version patch      # or: minor / major
+git commit -am "Bump version to $(hatch version)"
+
+# 4. Verify locally
+hatch test                    # or: hatch test --cover
+pre-commit run --all-files
+
+# 5. Commit, push, open a PR against `main`
+git push -u origin fix/<short-name>
+gh pr create --base main
+```
+
+CI runs tests and linting on the PR. Once green, merge to `main`.
+
+
+- Release flow
+
+Releases to PyPI are automated by the `Publish to PyPI` GitHub Action,
+which triggers when a PR is merged into the `release` branch.
+The action reads the version from `hatch version`, creates a `vX.Y.Z`
+tag, builds the distribution, publishes to PyPI, and cuts a GitHub Release.
+
+The version bump itself happens on the feature/fix branch (see step 3
+of the contribution flow), so releasing is just promoting `main` to
+`release`:
+
+```shell
+gh pr create --base release --head main --title "Release v$(hatch version)"
+# Merging the PR triggers the workflow: tag + build + publish + GitHub Release.
 ```
