@@ -11,6 +11,8 @@ jobs:
   add-version-tag:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
     permissions:
       id-token: write      # For trusted publishing to PyPI
       contents: write      # For creating tags and releases
@@ -114,7 +116,7 @@ jobs:
 
   # Create a GitHub release
   release:
-    needs: [ publish-to-pypi ]
+    needs: [ add-version-tag, publish-to-pypi ]
     runs-on: ubuntu-latest
 
     permissions:
@@ -132,6 +134,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ needs.add-version-tag.outputs.version }}
           files: dist/*
           generate_release_notes: true
           draft: false
