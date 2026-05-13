@@ -29,21 +29,24 @@ jobs:
       - name: Get version from Hatch
         id: get_version
         run: |
-          echo "VERSION=v$(hatch version)" >> "$GITHUB_ENV"
+          VERSION="v$(hatch version)"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "Version: $VERSION"
 
       - name: Check if tag already exists
         id: check_tag
         run: |
-          if git rev-parse "v${{ steps.get_version.outputs.version }}" >/dev/null 2>&1; then
+          if git rev-parse "${{ steps.get_version.outputs.version }}" >/dev/null 2>&1; then
             echo "exists=true" >> $GITHUB_OUTPUT
-            echo "Tag v${{ steps.get_version.outputs.version }} already exists"
+            echo "Tag ${{ steps.get_version.outputs.version }} already exists"
           else
             echo "exists=false" >> $GITHUB_OUTPUT
-            echo "Tag v${{ steps.get_version.outputs.version }} does not exist"
+            echo "Tag ${{ steps.get_version.outputs.version }} does not exist"
           fi
 
       - name: Create and push tag
+        if: steps.check_tag.outputs.exists == 'false'
         run: |
           git config --local user.name "GitHub Action"
           git config --local user.email "action@github.com"
@@ -123,7 +126,7 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
-          name: dist
+          name: python-package-distributions
           path: dist/
 
       - name: Create GitHub Release

@@ -87,7 +87,7 @@ Example:
 ```python
 @service
 class DataProcessor:
-    @capture_break
+    @catch_a_break
     def process(self, data):
         if not data:
             raise Break("Empty data provided")

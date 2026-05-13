@@ -75,7 +75,7 @@ def catch_a_break(func: F) -> F:
     Example:
         @service
         class DataProcessor:
-            @capture_break
+            @catch_a_break
             def process(self, data):
                 if not data:
                     raise Break("Empty data provided")

@@ -62,9 +62,7 @@ class TestService:
         msg = "Break svc operation. Reason: 'Reason not provided'"
         assert [msg] == caplog.messages
 
-    def test_capture_break_without_reason(
-        self, svc: UpdatePlanSvc, caplog: LogCaptureFixture
-    ):
+    def test_run_with_break_reason(self, svc: UpdatePlanSvc, caplog: LogCaptureFixture):
         with caplog.at_level(logging.DEBUG):
             result = svc.run_with_break_reason()
 
