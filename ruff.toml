@@ -1,4 +1,4 @@
-required-version = ">=0.11.5"
+required-version = ">=0.15.12"
 
 # Same as Black
 line-length = 90
@@ -109,6 +109,9 @@ unfixable = []
 
 [lint.per-file-ignores]
 "__init__.py" = ["F401"]  # Ignore unused imports in __init__.py files
+"src/et/_compat.py" = [
+    "ARG001",  # Unused args in dataclass_transform fallback (signature parity only)
+]
 "tests/**/*.py" = [
     "ANN", # Ignore missing type annotations in tests
     "F841", # Ignore assignment to unused variable
