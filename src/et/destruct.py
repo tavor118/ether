@@ -14,7 +14,8 @@ def _extract_variable_names(call_line: str) -> List[str]:
     Extracts variable names from the caller's assignment statement:
     `name, age, city = destruct(person_dict)` -> ['name', 'age', 'city']
     """
-    assignment_split = call_line.split("=")[0]  # take only the part before '='
+    # take only the part before '='
+    assignment_split = call_line.split("=", maxsplit=1)[0]
 
     pattern = r"\b([a-zA-Z_]\w*)\b"
     # \b              # Word boundary to ensure capturing whole variable names

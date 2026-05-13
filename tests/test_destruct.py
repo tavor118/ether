@@ -53,7 +53,7 @@ class TestDestruct:
                     test_data, keys=["first_name", "last_name"]
                 )
             else:
-                first_name, last_name = destruct(test_data)
+                first_name, last_name = destruct(test_data)  # noqa: RUF059
 
     @mark.parametrize("use_keys", [True, False])
     def test_empty_dict(self, use_keys: bool):
